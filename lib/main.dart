@@ -14,21 +14,21 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: TodoListPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class TodoListPage extends StatefulWidget {
+  TodoListPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TodoListPageState createState() => _TodoListPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _TodoListPageState extends State<TodoListPage> {
   int _counter = 0;
 
   void _incrementCounter() {
