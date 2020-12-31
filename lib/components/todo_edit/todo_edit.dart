@@ -33,6 +33,14 @@ class _TodoEditPageState extends State<TodoEditPage> {
                       border: OutlineInputBorder(), labelText: 'メモ'),
                   initialValue: widget.todo.note,
                 ),
+                Container(
+                  width: double.infinity,
+                  child: RaisedButton(
+                      child: const Text('更新',
+                          style: TextStyle(color: Colors.white)),
+                      color: Colors.blueAccent,
+                      onPressed: () {}),
+                )
               ],
             ))));
   }
