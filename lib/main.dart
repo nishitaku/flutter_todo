@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/models/Todo.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,20 +44,19 @@ class _TodoListPageState extends State<TodoListPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+      body: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index) {
+            Todo todo = Todo("タイトル $index", DateTime.now(), "タイトル $index のメモ");
+            return Card(
+                child: ListTile(
+              onTap: () {},
+              title: Text("${todo.title}"),
+              subtitle: Text("${todo.note}"),
+              trailing: Text("${todo.dueDate.toLocal().toString()}"),
+              isThreeLine: true,
+            ));
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
