@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo/models/Todo.dart';
 
 class TodoEditPage extends StatefulWidget {
-  TodoEditPage({Key key, this.title}) : super(key: key);
+  TodoEditPage({Key key, this.todo}) : super(key: key);
 
-  final String title;
+  final Todo todo;
 
   @override
   _TodoEditPageState createState() => _TodoEditPageState();
@@ -14,22 +14,26 @@ class _TodoEditPageState extends State<TodoEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (BuildContext context, int index) {
-            Todo todo = Todo("タイトル $index", DateTime.now(), "タイトル $index のメモ");
-            return Card(
-                child: ListTile(
-              onTap: () {},
-              title: Text("${todo.title}"),
-              subtitle: Text("${todo.note}"),
-              trailing: Text("${todo.dueDate.toLocal().toString()}"),
-              isThreeLine: true,
-            ));
-          }),
-    );
+        appBar: AppBar(
+          title: Text("${widget.todo.title}"),
+        ),
+        body: Container(
+            margin: const EdgeInsets.all(16.0),
+            child: Form(
+                child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'タイトル'),
+                  initialValue: widget.todo.title,
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'メモ'),
+                  initialValue: widget.todo.note,
+                ),
+              ],
+            ))));
   }
 }

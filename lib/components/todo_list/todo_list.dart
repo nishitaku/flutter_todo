@@ -12,12 +12,8 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  _moveToEditView() => Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => TodoEditPage(
-                title: widget.title,
-              )));
+  _moveToEditView(Todo todo) => Navigator.push(context,
+      MaterialPageRoute(builder: (context) => TodoEditPage(todo: todo)));
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +28,7 @@ class _TodoListPageState extends State<TodoListPage> {
             return Card(
                 child: ListTile(
               onTap: () {
-                _moveToEditView();
+                _moveToEditView(todo);
               },
               title: Text("${todo.title}"),
               subtitle: Text("${todo.note}"),
