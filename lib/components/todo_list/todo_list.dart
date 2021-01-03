@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/components/todo_add/todo_add.dart';
 import 'package:flutter_todo/components/todo_edit/todo_edit.dart';
 import 'package:flutter_todo/models/Todo.dart';
 
@@ -14,6 +15,9 @@ class TodoListPage extends StatefulWidget {
 class _TodoListPageState extends State<TodoListPage> {
   _moveToEditView(Todo todo) => Navigator.push(context,
       MaterialPageRoute(builder: (context) => TodoEditPage(todo: todo)));
+
+  _moveToAddView() => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => TodoAddPage()));
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,9 @@ class _TodoListPageState extends State<TodoListPage> {
             ));
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _moveToAddView();
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
