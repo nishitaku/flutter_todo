@@ -1,6 +1,8 @@
+import 'package:uuid/uuid.dart';
+
 class Todo {
   // ID
-  String id;
+  String id = Uuid().toString();
   // タイトル
   String title;
   // 完了期限
