@@ -21,13 +21,10 @@ class Todo {
       @required this.isCompleted});
 
   Todo.newTodo(String title, String note) {
+    this.id = Uuid().toString();
     this.title = title;
     this.dueDate = DateTime.now();
     this.note = note;
-  }
-
-  assignUuid() {
-    this.id = Uuid().toString();
   }
 
   factory Todo.fromMap(Map<String, dynamic> json) => Todo(
