@@ -28,7 +28,7 @@ class _TodoListPageState extends State<TodoListPage> {
       body: ListView.builder(
           itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
-            Todo todo = Todo("タイトル $index", DateTime.now(), "タイトル $index のメモ");
+            Todo todo = Todo.newTodo("タイトル $index", "タイトル $index のメモ");
             return Card(
                 child: ListTile(
               onTap: () {

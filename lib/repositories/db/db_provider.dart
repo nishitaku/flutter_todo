@@ -1,11 +1,11 @@
-import 'dart:io';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class DBProvider {
+  // Private Constructor
   DBProvider._();
+
   static final DBProvider db = DBProvider._();
 
   static Database _database;
@@ -21,8 +21,8 @@ class DBProvider {
   }
 
   Future<Database> initDB() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TodoDB.db");
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, "TodoDB.db");
     return await openDatabase(path, version: 1, onCreate: _createTable);
   }
 
@@ -32,7 +32,7 @@ class DBProvider {
         "title TEXT,"
         "dueDate TEXT,"
         "note TEXT,"
-        "isCompleted TEXT"
+        "isCompleted INTEGER"
         ")");
   }
 }
