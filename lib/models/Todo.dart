@@ -25,6 +25,7 @@ class Todo {
     this.title = title;
     this.dueDate = DateTime.now();
     this.note = note;
+    this.isCompleted = false;
   }
 
   factory Todo.fromMap(Map<String, dynamic> json) => Todo(
