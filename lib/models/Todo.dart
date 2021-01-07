@@ -21,7 +21,7 @@ class Todo {
       @required this.isCompleted});
 
   Todo.newTodo(String title, String note) {
-    this.id = Uuid().toString();
+    this.id = Uuid().v4();
     this.title = title;
     this.dueDate = DateTime.now();
     this.note = note;
