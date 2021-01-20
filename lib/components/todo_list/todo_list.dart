@@ -5,20 +5,30 @@ import 'package:flutter_todo/models/Todo.dart';
 import 'package:flutter_todo/repositories/db/db_provider.dart';
 
 class TodoListPage extends StatefulWidget {
-  TodoListPage({Key key, this.title}) : super(key: key);
+  const TodoListPage({Key, key, this.title, this.routeObserver})
+      : super(key: key);
 
   final String title;
+  final RouteObserver<PageRoute> routeObserver;
 
   @override
   _TodoListPageState createState() => _TodoListPageState();
 }
 
-class _TodoListPageState extends State<TodoListPage> {
+class _TodoListPageState extends State<TodoListPage> with RouteAware {
+  Future<List<Todo>> _todoList;
+
   _moveToEditView(Todo todo) => Navigator.push(context,
       MaterialPageRoute(builder: (context) => TodoEditPage(todo: todo)));
 
   _moveToAddView() => Navigator.push(
       context, MaterialPageRoute(builder: (context) => TodoAddPage()));
+
+  @override
+  void initState() {
+    super.initState();
+    _todoList = DBProvider.db.getAllTodos();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +37,7 @@ class _TodoListPageState extends State<TodoListPage> {
         title: Text(widget.title),
       ),
       body: FutureBuilder(
-        future: DBProvider.db.getAllTodos(),
+        future: _todoList,
         builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(child: CircularProgressIndicator());
@@ -67,5 +77,24 @@ class _TodoListPageState extends State<TodoListPage> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    widget.routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  // 一度、別の画面に遷移したあとで、再度この画面に戻ってきた時にコールされる
+  @override
+  void didPopNext() {
+    _todoList = DBProvider.db.getAllTodos();
+    setState(() {});
   }
 }

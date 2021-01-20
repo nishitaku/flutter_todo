@@ -6,6 +6,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final RouteObserver<PageRoute> _routeObserver = RouteObserver<PageRoute>();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: TodoListPage(title: 'Flutter Demo Home Page'),
+      home: TodoListPage(
+          title: 'Flutter Demo Home Page', routeObserver: _routeObserver),
+      navigatorObservers: [
+        _routeObserver,
+      ],
     );
   }
 }
