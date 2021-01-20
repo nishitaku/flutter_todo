@@ -24,6 +24,12 @@ class _TodoListPageState extends State<TodoListPage> with RouteAware {
   _moveToAddView() => Navigator.push(
       context, MaterialPageRoute(builder: (context) => TodoAddPage()));
 
+  _updateTodo(Todo todo) async {
+    await DBProvider.db.updateTodo(todo);
+    _todoList = DBProvider.db.getAllTodos();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -56,16 +62,50 @@ class _TodoListPageState extends State<TodoListPage> with RouteAware {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 Todo todo = snapshot.data[index];
-                return Card(
-                    child: ListTile(
-                  onTap: () {
-                    _moveToEditView(todo);
-                  },
-                  title: Text("${todo.title}"),
-                  subtitle: Text("${todo.note}"),
-                  trailing: Text("${todo.dueDate.toLocal().toString()}"),
-                  isThreeLine: true,
-                ));
+                return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      _moveToEditView(todo);
+                    },
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0).copyWith(left: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(todo.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                (todo.note.isEmpty)
+                                    ? Container()
+                                    : Column(
+                                        children: [
+                                          SizedBox(height: 4),
+                                          Text(todo.note,
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1)
+                                        ],
+                                      )
+                              ],
+                            )),
+                            Checkbox(
+                              value: todo.isCompleted,
+                              onChanged: (value) {
+                                todo.isCompleted = value;
+                                _updateTodo(todo);
+                              },
+                              activeColor: Colors.lightGreen,
+                            )
+                          ],
+                        )));
               });
         },
       ),
