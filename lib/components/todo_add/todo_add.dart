@@ -49,6 +49,7 @@ class _TodoAddPageState extends State<TodoAddPage> {
                           color: Colors.blueAccent,
                           onPressed: () {
                             _submit();
+                            Navigator.of(context).pop();
                           }),
                     )
                   ],
