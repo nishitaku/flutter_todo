@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: TodoListPage(
-          title: 'Flutter Demo Home Page', routeObserver: _routeObserver),
+          title: 'Flutter Todo List', routeObserver: _routeObserver),
       navigatorObservers: [
         _routeObserver,
       ],
