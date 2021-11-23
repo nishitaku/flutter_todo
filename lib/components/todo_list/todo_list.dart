@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/components/todo_add/todo_add.dart';
 import 'package:flutter_todo/components/todo_edit/todo_edit.dart';
+import 'package:flutter_todo/components/todo_list/todo_list_item.dart';
 import 'package:flutter_todo/models/Todo.dart';
 import 'package:flutter_todo/repositories/db/db_provider.dart';
 
 class TodoListPage extends StatefulWidget {
-  const TodoListPage({Key, key, this.title, this.routeObserver})
+  const TodoListPage({Key key, this.title, this.routeObserver})
       : super(key: key);
 
   final String title;
@@ -62,50 +63,7 @@ class _TodoListPageState extends State<TodoListPage> with RouteAware {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 Todo todo = snapshot.data[index];
-                return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      _moveToEditView(todo);
-                    },
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0).copyWith(left: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(todo.title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5
-                                        .copyWith(fontWeight: FontWeight.bold)),
-                                (todo.note.isEmpty)
-                                    ? Container()
-                                    : Column(
-                                        children: [
-                                          SizedBox(height: 4),
-                                          Text(todo.note,
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1)
-                                        ],
-                                      )
-                              ],
-                            )),
-                            Checkbox(
-                              value: todo.isCompleted,
-                              onChanged: (value) {
-                                todo.isCompleted = value;
-                                _updateTodo(todo);
-                              },
-                              activeColor: Colors.lightGreen,
-                            )
-                          ],
-                        )));
+                return TodoListItem(todo: todo);
               });
         },
       ),
